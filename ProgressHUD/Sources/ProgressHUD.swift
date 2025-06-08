@@ -38,7 +38,7 @@ public class ProgressHUD: UIView {
 	var marginSize: CGFloat = 30
 
 	var viewBackground: UIView?
-	var toolbarHUD: UIToolbar?
+	var toolbarHUD: ClearToolbar?
 	var labelStatus: UILabel?
 
 	var viewProgress: ProgressView?
@@ -260,7 +260,7 @@ extension ProgressHUD {
 
 	private func setupToolbar() {
 		if (toolbarHUD == nil) {
-			toolbarHUD = UIToolbar(frame: CGRect.zero)
+			toolbarHUD = ClearToolbar(frame: CGRect.zero)
 			toolbarHUD?.isTranslucent = true
 			toolbarHUD?.clipsToBounds = true
 			toolbarHUD?.layer.cornerRadius = 10
@@ -596,4 +596,23 @@ extension ProgressHUD {
 		removeToolbar()
 		removeBackground()
 	}
+}
+
+// MARK: Implemented custom toolbar for clear animation background.
+final class ClearToolbar: UIToolbar {
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupClearStyle()
+  }
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    setupClearStyle()
+  }
+  private func setupClearStyle() {
+    setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+    setShadowImage(UIImage(), forToolbarPosition: .any)
+    isTranslucent = true
+    backgroundColor = .clear
+    layer.backgroundColor = UIColor.clear.cgColor
+  }
 }
